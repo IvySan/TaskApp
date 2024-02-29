@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:password@localhost:5432/myDatabase?schema=public"
+}
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+model Project{
+  id    Int    @id @default(autoincrement())
+  title String
+  description String @default("")
+  createdAt DateTime @default(now())
+  
+  tasks Task[] 
+  users UserProject[]
+
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  title     String
+  status    String
+  description String @default("")
+  createdAt DateTime @default(now())
+  
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId Int?
+
+  users UserTask[]
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  admin Boolean @default(false)
+  firstname String? @db.VarChar(255)
+  lastname  String? @db.VarChar(255)
+  email     String  @unique @db.VarChar(255)
+  password  String
+  createdAt DateTime @default(now())
+  
+  tasks UserTask[]
+  projects UserProject[]
+}
+
+model UserTask{
+  user User? @relation(fields:[userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId Int
+  task Task? @relation(fields: [taskId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  taskId Int
+  UserTaskTime UserTaskTime[]
+
+  @@id([userId,taskId])
+}
+
+model UserProject{
+  user User? @relation(fields:[userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId Int
+  project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId Int
+
+  @@id([userId,projectId])
+}
+
+model UserTaskTime{
+  id Int     @id @default(autoincrement())
+  time String
+  date String @default("")
+  createdAt DateTime @default(now())
+  userTask UserTask @relation(fields: [userId, taskId], references: [userId, taskId])
+  userId Int
+  taskId Int
+}
