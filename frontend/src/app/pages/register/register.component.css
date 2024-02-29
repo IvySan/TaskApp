@@ -1,0 +1,14 @@
+.error{
+    color: red;
+}
+
+.logIn{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+    margin:auto;
+    margin-left: 9px;
+}

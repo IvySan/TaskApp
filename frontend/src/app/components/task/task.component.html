@@ -1,0 +1,27 @@
+<!-- TASKS FOR PROJECT -->
+    <div *ngFor="let task of usersTasks; let i=index;" class="row border py-2">
+        <div class="col-1 fw-bold d-flex align-items-center">{{i+1}}</div>
+        <div class="col-1 d-flex align-items-center">{{task.title}}</div>
+        <div *ngFor="let day of weekDates; let i= index;" class="col-1 d-flex align-items-center justify-content-center">
+            <input (blur)="submitTime($event, task.id)" [name]="'input' + i" [value]="displayTimeForDayOnTask(task.id, i)" class="text-center" type="text" placeholder="00:00">
+        </div>
+        <div class="col-1 d-flex align-items-center justify-content-center">{{getTotalTime(task.id)}}</div>
+        <div class="col-2 d-flex align-items-center justify-content-end">
+            <button (click)="removeFromTask(task)" *ngIf="showAssignButton(task)" class="btn btn-dark d-flex align-items-center me-2"><mat-icon>clear</mat-icon></button>
+            <button (click)="openUpdateTaskModal(task.id, task.title, task.status, task.description, task.projectId)" class="btn btn-primary d-flex align-items-center me-2"><mat-icon>edit</mat-icon></button>
+            <button (click)="openDeleteTaskModal(task.id)" class="btn btn-danger d-flex align-items-center"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <div class="row bg-secondary text-light fw-bold py-1 d-flex align-items-center">
+        <div class="col-2 d-flex align-items-center">Total:</div>
+        <div class="col-1 text-center" *ngFor="let day of weekDates; let i= index;">{{getTotalTimePerDay(i)}}</div>
+    </div>
+    <div class="py-4">
+        <label class="mb-2" for="select-task">Select task:</label>
+        <select (change)="onSelectChange($event)" class="form-select" id="select-task" >
+            <option class="d-none" selected value=""></option>
+            <option *ngIf="otherTasks.length === 0" disabled selected value >No tasks</option>
+            <option *ngFor="let task of otherTasks" [value]=task.id>{{task.title}}</option>
+        </select>
+    </div>
+    

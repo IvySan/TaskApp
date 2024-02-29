@@ -1,0 +1,11 @@
+<h3 class="bg-dark text-white p-2">Remove users from this project</h3>
+<form class="p-3" action="">
+<input class="form-control" type="text" [(ngModel)]="searchTerm" name="searchTerm" placeholder="Search by name">
+    <mat-selection-list #users>
+        <mat-list-option *ngFor="let user of usersOnProject | userFilter: searchTerm" [value]="user.id">{{user.firstname + ' ' + user.lastname}}</mat-list-option>
+    </mat-selection-list>
+    <div class="d-flex justify-content-center align-items-center">
+        <input (click)="onSubmit(users)" class="btn btn-primary px-5 me-5" type="submit" />
+        <button (click)="closeModal()" class="btn btn-danger px-5">Close</button>
+    </div>
+</form>

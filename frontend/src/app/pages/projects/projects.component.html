@@ -1,0 +1,44 @@
+<app-header [currentUser]="currentUser"></app-header>
+<div class="container py-4">
+    <div class="row">
+        <div class="bg-light border d-flex align-items-center justify-content-between py-3">
+            <h2 class="mb-0 text-uppercase">Projects:</h2>
+            <div class="col-3">
+                <input class="form-control" type="text" [(ngModel)]="filterInput" placeholder="Search by project title">
+            </div>
+        </div>
+    </div>
+    <div class="row border py-2 bg-dark text-light">
+        <div class="col-1 d-flex align-items-center fw-bold">#</div>
+        <div class="col-2 d-flex align-items-center fw-bold">Title</div>
+        <div class="col-2 d-flex align-items-center fw-bold">Description</div>
+        <div class="col-5 d-flex align-items-center fw-bold">Users</div>
+        <div class="col-2 d-flex justify-content-end align-items-center">
+            <button (click)="openCreateProjectModal()"class="btn btn-primary d-flex align-items-center"><mat-icon>add</mat-icon></button>
+        </div>
+    </div>
+    <div *ngFor="let project of projects | filter: filterInput; let i = index" class="row border py-2">
+        <div class="col-1 d-flex align-items-center fw-bold">{{i+1}}</div>
+        <div class="col-2 d-flex align-items-center">{{project.title}}</div>
+        <div class="col-2 d-flex align-items-center">{{project.description}}</div>
+        <div class="col-3 d-flex align-items-center">{{getUserFullName(project)}}</div>
+        <div class="col-2 d-flex align-items-center justify-content">
+            <button (click)="openAddUserModal(project.id)"  class="btn btn-primary me-2 d-flex align-items-center"><mat-icon>person_add</mat-icon></button>
+            <div *ngIf="getUserFullName(project) === 'No users'; else notNoUsers">
+                <button (click)="openRemoveUserModal(project.id)" [disabled]="true" class="btn btn-danger d-flex align-items-center">
+                  <mat-icon>person_remove</mat-icon>
+                </button>
+            </div>
+            <ng-template #notNoUsers>
+                <button (click)="openRemoveUserModal(project.id)" [disabled]="false" class="btn btn-danger d-flex align-items-center">
+                  <mat-icon>person_remove</mat-icon>
+                </button>
+            </ng-template>
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-end">
+            <button (click)="openUpdateProjectModal(project.id, project.title, project.description)"  class="btn btn-success me-2 d-flex align-items-center"><mat-icon>edit</mat-icon></button>
+            <button (click)="openDeleteProjectModal(project.id)" class="btn btn-danger d-flex align-items-center"><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+</div>
+

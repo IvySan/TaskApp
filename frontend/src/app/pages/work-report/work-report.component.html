@@ -1,0 +1,35 @@
+<app-header [currentUser]="currentUser"></app-header>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="bg-light d-flex align-items-center justify-content-between py-3 border">
+            <h2 class="mb-0 text-uppercase">Work-report</h2>
+            <div class="d-flex align-items-center">
+                <div class="me-3">Previous Week</div>
+                <button (click)="navigateBefore()" class="btn btn-success d-flex align-items-center me-2"><mat-icon>navigate_before</mat-icon></button>
+                <button (click)="navigateAfter()" class="btn btn-success d-flex align-items-center me-3"><mat-icon>navigate_next</mat-icon></button>
+                <div>Next Week</div>
+            </div>
+        </div>
+    </div>
+    <div class="row bg-secondary text-light fw-bold d-flex align-items-center">
+        <div class="col-2"></div>
+        <div *ngFor="let day of weekDates" class="col-1 d-flex align-items-center justify-content-center">{{formatDate(day)}}</div>
+   </div>
+    <div  class="row border p-2" *ngFor="let project of projects">
+        <div class="col-2">{{project.title}}</div>
+        <div class="col-1 d-flex align-items-center justify-content-center" *ngFor="let day of weekDates; let i= index;">{{dispalyTimeOnProject(project.id, i)}}</div>
+    </div>
+    <div class="row bg-secondary text-white border p-2">
+        <div class="col-2">Total</div>
+        <div class="col-1 d-flex align-items-center justify-content-center" *ngFor="let day of weekDates; let i= index;">{{displayTimeOnDay(i)}}</div>
+    </div>
+    <div class="row bg-success text-white border p-2">
+        <div class="col-2">Regular hours</div>
+        <div class="col-1 d-flex align-items-center justify-content-center" *ngFor="let day of weekDates; let i= index;">{{displayRegularTime(i)}}</div>
+    </div>
+    <div class="row bg-danger text-white border p-2">
+        <div class="col-2">Overtime</div>
+        <div class="col-1 d-flex align-items-center justify-content-center" *ngFor="let day of weekDates; let i= index;">{{displayOvertime(i)}}</div>
+    </div>
+</div>

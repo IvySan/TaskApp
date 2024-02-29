@@ -1,0 +1,42 @@
+<header class="bg-dark py-2">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div class="text-light bg-dark py-2">
+      <button
+        class="navbar-toggler"
+        type="button"
+        [routerLink]="['/']"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        TaskTracker
+      </button>
+    </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <a class="btn btn-dark me-2" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <!-- <a *ngIf="currentUser?.admin" class="btn btn-dark me-2" [routerLink]="['/tasks']" routerLinkActive="active">Tasks</a> -->
+        <a *ngIf="currentUser?.admin" class="btn btn-dark me-2" [routerLink]="['/projects']" routerLinkActive="active">Projects</a>
+        <a class="btn btn-dark me-2" [routerLink]="['/work-report']" routerLinkActive="active">Work report</a>
+        <div (click)="toggleDropdown()" class="nav-item dropdown">
+          <button
+            class="btn btn-dark dropdown-toggle d-flex justify-content-center align-items-center"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <div class="avatar-circle rounded-circle bg-light text-danger me-2 d-flex justify-content-center align-items-center">
+              {{initials}}
+            </div>
+            {{currentUser?.firstname + " " + currentUser?.lastname}}
+          </button>
+          <ul class="dropdown-menu p-2 w-100" [ngClass]="open ? 'show' : ''">
+            <div>
+              <a class="nav-link w-100 mb-2" [routerLink]="['/edit-user']"
+                ><mat-icon>edit</mat-icon>Edit</a
+              >
+            </div>
+            <a class="nav-link text-danger fw-bold" [routerLink]="['/auth/log-in']" (click)="onLogOut()">Log out</a>
+          </ul>
+        </div>
+    </div>
+  </div>
+</header>

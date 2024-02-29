@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <div class="bg-light d-flex align-items-center justify-content-between py-3 border">
+            <h2 class="mb-0 text-uppercase">My projects:</h2>
+            <div class="d-flex align-items-center">
+                <div class="me-3">Previous Week</div>
+                <button (click)="navigateBefore()" class="btn btn-success d-flex align-items-center me-2"><mat-icon>navigate_before</mat-icon></button>
+                <button (click)="navigateAfter()" class="btn btn-success d-flex align-items-center me-3"><mat-icon>navigate_next</mat-icon></button>
+                <div>Next Week</div>
+            </div>
+        </div>
+    </div>
+    <h3 class="bg-light py-2 text-uppercase fw-bold" *ngIf="projects.length === 0" >No projects</h3>
+    <ng-container *ngFor="let project of projects; let i = index">
+        <div class="row py-2 bg-dark text-light">
+            <div class="col-6 d-flex align-items-center"><h3 class="mb-0"><span class="me-2">#</span>{{project.title}}</h3></div>
+            <div class="col-6 d-flex justify-content-end">
+                <button (click)="openCreateTaskModal(project.id)" class="btn btn-primary d-flex align-items-center"><mat-icon>add</mat-icon></button>
+            </div>
+        </div> 
+        <div class="row bg-secondary text-light fw-bold py-1 d-flex align-items-center">
+             <div class="col-1">No.</div>
+            <div class="col-1 d-flex align-items-center justify">Title</div>
+            <div *ngFor="let day of weekDates" class="col-1 d-flex align-items-center justify-content-center">{{formatDate(day)}}</div>
+            <div class="col-1 d-flex align-items-center justify-content-center">Total</div>
+        </div>
+        <div class="row border d-flex align-items-center">
+            <app-task [weekDates]="weekDates" [projectId]="project.id"></app-task>
+        </div>
+    </ng-container>
+</div>
